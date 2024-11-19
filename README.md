@@ -5,12 +5,12 @@ Calculates the effective potency of non-standard lines relative to standard.
 Supports fairly naive rotational calculations for total potency, line length, and pps (per target).
 
 Some considerations:
-- assumes all F3 and B3 are 2.5 GCD or less (no long casting, always F3P)
-- assumes 0.1s caster tax on any cast 2.5s or longer
+- assumption all F3 and B3 are 2.5 GCD or less (no long casting, always F3P)
 - standard line includes using F3P under AF3
 - all filler (Thunder, Foul, Paradox) is omitted as part of potency calculation
 - no validity checking for lines that would otherwise drop enochian or not have F3Ps e.g. F1 during UI
-- standard AOE starts at 4 targets to be optimal, only F2, B2, and Freeze are gains on 3
+- assumes 0.1s caster tax on any cast 2.5s or longer
+- standard AOE starts at 4 targets to be optimal, only F2, B2, and Freeze are gains
 
 ### Arguments
 
@@ -39,4 +39,5 @@ Abbreviations for basic spells for creating lines:
 - PD: Paradox
 - DS: Despair
 - TP: Transpose
-- SW: Swiftcast
+- SC: Swiftcast
+- TC: Triplecast

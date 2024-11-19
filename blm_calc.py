@@ -10,7 +10,7 @@ GLOBAL_GCD = 2.5
 FORM_MAX = 3
 TRANSPOSE = 'TP'
 # TODO: implement swiftcast
-SWIFT = 'SW'
+SWIFT = 'SC'
 TRIPLE_CAST = 'TC'
 
 
@@ -72,12 +72,13 @@ def generate_potency_length(
                 form_val = min(form_val + MAGIC_DICT[gcd], FORM_MAX)
             else:
                 form = gcd_form
-                form_val = MAGIC_DICT[gcd]
-
                 # swapping forms with F2 and B2 should be global GCD
-                if gcd in ('F2', 'B2'):
+                if gcd in ('F2', 'B2') and form_val == 3:
                     length += GLOBAL_GCD
+                    form_val = MAGIC_DICT[gcd]
                     continue
+
+                form_val = MAGIC_DICT[gcd]
         else:
             potency += main + fall_off * (targets - 1)
             if debug:

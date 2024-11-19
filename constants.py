@@ -13,7 +13,7 @@ SPELL_ABBREVIATIONS = {
     'PD': 'Paradox',
     'DS': 'Despair',
     'TP': 'Transpose',
-    'SW': 'Swiftcast',
+    'SC': 'Swiftcast',
 }
 
 # represented by main hit and multihit falloff
