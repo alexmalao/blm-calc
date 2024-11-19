@@ -88,6 +88,7 @@ SPELL_TYPE_DICT = {
     'F2': 'AF',
     'F3': 'AF',
     'F4': 'AF',
+    'FL': 'AF',
     'DS': 'AF',
     'FS': 'AF',
 }
@@ -104,6 +105,7 @@ MAGIC_DICT = {
     'F3': 3,
     'F4': 0,
     'DS': 3,
+    'FL': 3,
     'FS': 0,
     'PD': 1,
 }

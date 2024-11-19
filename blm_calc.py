@@ -65,7 +65,7 @@ def generate_potency_length(
             element_modifier = ENOCHIAN_DICT[form][gcd_form][form_val]
             potency += (main + fall_off * (targets - 1)) * element_modifier
             if debug:
-                print(f'DEBUG: total potency: {potency} for {gcd} under {form}{form_val}')
+                print(f'DEBUG: total potency: {int(potency)} for {gcd} under {form}{form_val}', end=' ')
 
             # modify the enochian form and value
             if form == gcd_form:
@@ -79,35 +79,34 @@ def generate_potency_length(
                     continue
 
                 form_val = MAGIC_DICT[gcd]
-        else:
+        elif gcd == 'PD':
             potency += main + fall_off * (targets - 1)
             if debug:
-                print(f'DEBUG: total potency: {potency} for {gcd} under {form}{form_val}')
+                print(f'DEBUG: total potency: {int(potency)} for {gcd} under {form}{form_val}', end=' ')
             # make exception for paradox to advance the gauge
-            if gcd == 'PD':
-                form_val = min(form_val + MAGIC_DICT[gcd], FORM_MAX)
+            form_val = min(form_val + MAGIC_DICT[gcd], FORM_MAX)
 
         if swift > 0 and gcd not in ('PD', 'DS'):
             length += GLOBAL_GCD
-            swift -= 0
+            if debug:
+                print(f'DEBUG: used swiftcast on {gcd}', end=' ')
+            swift -= 1
         else:
             length += CAST_TIME_DICT[gcd]
+        if debug:
+            print(f'at length {round(length, 1)}s')
 
     assert form == 'AF' if astral_start else 'UI', 'Final elemental gauge should match start of line'
 
     return int(potency), length
 
 
-STANDARD_POTENCY, STANDARD_LENGTH = generate_potency_length(STANDARD_ROTATION)
-STANDARD_PPS = STANDARD_POTENCY / STANDARD_LENGTH
-
-
 def generate_line_data(potency: int, length: float, targets: int = 1):
 
-    if targets in (1, 2, 3):
+    if targets in (1, 2):
         standard_potency, standard_length = generate_potency_length(STANDARD_ROTATION, targets=targets)
         standard_pps = standard_potency / standard_length
-    elif targets > 3:
+    elif targets > 2:
         standard_potency, standard_length = generate_potency_length(STANDARD_AOE_ROTATION, targets=targets)
         standard_pps = standard_potency / standard_length
     else:
@@ -137,8 +136,8 @@ if __name__ == '__main__':
     parser.add_argument('--raw_potency', action='store_true',
                         help='Optional to omit the rotation and submit raw potency and length as positional'
                              'arguments. Usage: --raw_potency POTENCY LENGTH')
-    parser.add_argument('potency', nargs='?', type=int, default=STANDARD_POTENCY)
-    parser.add_argument('length', nargs='?', type=float, default=STANDARD_LENGTH)
+    parser.add_argument('potency', nargs='?', type=int, default=0)
+    parser.add_argument('length', nargs='?', type=float, default=0.0)
     parser.add_argument('-r', '--rotation',
                         type=str,
                         nargs='+',
