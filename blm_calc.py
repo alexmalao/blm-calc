@@ -8,24 +8,14 @@ from constants import MAGIC_DICT
 
 GLOBAL_GCD = 2.5
 FORM_MAX = 3
-TRANSPOSE = 'TP'
-# TODO: implement swiftcast
-SWIFT = 'SC'
-TRIPLE_CAST = 'TC'
+
+# oGCDs lowercase for readability
+TRANSPOSE = 'tp'
+SWIFT = 'sc'
+TRIPLE_CAST = 'tc'
 
 
-STANDARD_ROTATION_DICT = {
-    ('B3', 1, 0.7),
-    ('B4', 1, 1),
-    ('PD', 2, 1),
-    ('F3', 1, 0.7),
-    ('F3', 1, 1.8),
-    ('F4', 6, 1.8),
-    ('DS', 1, 1.8),
-    ('FS', 1, 1.8),
-}
-
-STANDARD_ROTATION = ['B3', 'B4', 'PD', 'F3', 'F4', 'F4', 'F4', 'PD', 'F3', 'F4', 'F4', 'F4', 'DS', 'FS']
+STANDARD_ROTATION = ['B3', 'B4', 'PD', 'F3', 'F4', 'F4', 'F4', 'PD', 'F3P', 'F4', 'F4', 'F4', 'DS', 'FS']
 STANDARD_AOE_ROTATION = ['B2', 'FZ', 'F2', 'FL', 'FL', 'FS']
 
 
@@ -72,8 +62,8 @@ def generate_potency_length(
                 form_val = min(form_val + MAGIC_DICT[gcd], FORM_MAX)
             else:
                 form = gcd_form
-                # swapping forms with F2 and B2 should be global GCD
-                if gcd in ('F2', 'B2') and form_val == 3:
+                # swapping forms with form swappers should be global GCD
+                if gcd in ('F2', 'B2', 'F3', 'B3') and form_val == 3:
                     length += GLOBAL_GCD
                     form_val = MAGIC_DICT[gcd]
                     continue
@@ -86,7 +76,7 @@ def generate_potency_length(
             # make exception for paradox to advance the gauge
             form_val = min(form_val + MAGIC_DICT[gcd], FORM_MAX)
 
-        if swift > 0 and gcd not in ('PD', 'DS'):
+        if swift > 0 and gcd not in ('PD', 'DS', 'F3P'):
             length += GLOBAL_GCD
             if debug:
                 print(f'DEBUG: used swiftcast on {gcd}', end=' ')

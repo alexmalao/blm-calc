@@ -5,12 +5,11 @@ Calculates the effective potency of non-standard lines relative to standard.
 Supports fairly naive rotational calculations for total potency, line length, and pps (per target).
 
 Some considerations:
-- assumption all F3 and B3 are 2.5 GCD or less (no long casting, always F3P)
-- standard line includes using F3P under AF3
-- all filler (Thunder, Foul, Paradox) is omitted as part of potency calculation
+
+- use F3P for firestarter, standard line includes F3P under AF3
+- all filler (Thunder, Foul, Xenoglossy) is omitted as part of potency calculation
 - no validity checking for lines that would otherwise drop enochian or not have F3Ps e.g. F1 during UI
 - assumes 0.1s caster tax on any cast 2.5s or longer
-- standard AOE starts at 4 targets to be optimal, only F2, B2, and Freeze are gains
 
 ### Arguments
 
@@ -25,6 +24,7 @@ Run by doing `python blm_calc.py --rotation B3 PD B4 F3 F4 F4 F4 PD F4 F4 F4 F3 
 
 Abbreviations for basic spells for creating lines:
 
+- F3P: Fire III w/ Firestarter
 - B1: Blizzard I
 - B2: High Blizzard II
 - B3: Blizzard III 
@@ -38,6 +38,6 @@ Abbreviations for basic spells for creating lines:
 - FS: Flare Star
 - PD: Paradox
 - DS: Despair
-- TP: Transpose
-- SC: Swiftcast
-- TC: Triplecast
+- tp: Transpose
+- sc: Swiftcast
+- tc: Triplecast
