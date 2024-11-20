@@ -13,7 +13,7 @@ Some considerations:
 
 ### Arguments
 
-Run by doing `python blm_calc.py --rotation B3 PD B4 F3 F4 F4 F4 PD F4 F4 F4 F3 DS FS`
+Run by doing `python blm_calc.py --rotation B3 PD B4 F3 F4 F4 F4 PD F4 F4 F4 F3P DS FS`
 
 - `--raw_potency`: overrides the rotation and takes manually calculated potency and length to show efficiency, requires potency and length positional arguments
 - `potency`: raw potency value
