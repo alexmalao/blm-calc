@@ -2,7 +2,7 @@
 
 Calculates the effective potency of non-standard lines relative to standard.
 
-Supports fairly naive rotational calculations for total potency, line length, and pps (per target).
+Supports basic rotational calculations for total potency, line length, and pps (per target).
 
 Some considerations:
 
