@@ -9,6 +9,7 @@ Some considerations:
 - use F3P for firestarter, standard line includes F3P under AF3
 - all filler (Thunder, Foul, Xenoglossy) is omitted as part of potency calculation
 - no validity checking for lines that would otherwise drop enochian e.g. F1 during UI
+- assumes starts in af3 and expects to end in astral fire (unless using `--ui3`)
 - assumes 0.1s caster tax on any cast 2.5s or longer
 
 ### Arguments
