@@ -1,3 +1,4 @@
+import re
 import argparse
 
 from constants import POTENCY_DICT
@@ -5,6 +6,7 @@ from constants import CAST_TIME_DICT
 from constants import ENOCHIAN_DICT
 from constants import SPELL_TYPE_DICT
 from constants import MAGIC_DICT
+from constants import SPELL_ABBREVIATIONS
 
 GLOBAL_GCD = 2.5
 FORM_MAX = 3
@@ -15,8 +17,32 @@ SWIFT = 'sc'
 TRIPLE_CAST = 'tc'
 
 
-STANDARD_ROTATION = ['B3', 'B4', 'PD', 'F3', 'F4', 'F4', 'F4', 'PD', 'F3P', 'F4', 'F4', 'F4', 'DS', 'FS']
-STANDARD_AOE_ROTATION = ['B2', 'FZ', 'F2', 'FL', 'FL', 'FS']
+STANDARD_ROTATION = ['B3', 'B4', 'PD', 'F3', '3xF4', 'PD', 'F3P', '3xF4', 'DS', 'FS']
+STANDARD_AOE_ROTATION = ['B2', 'FZ', 'F2', '2xFL', 'FS']
+
+
+def sanitize_rotation(spells: list[str]) -> list[str]:
+    """
+    Sanitize stacked spells to their respective correct amount
+    e.g. 4xF4 -> F4, F4, F4, F4
+
+    :return: a fully sanitized list of spells
+    """
+    sanitized_spells = []
+    for spell in spells:
+        if spell in SPELL_ABBREVIATIONS:
+            sanitized_spells.append(spell)
+        else:
+            match = re.search('^(\\d)x(.+)$', spell)
+            if match is not None:
+                count = int(match.group(1))
+                spell = match.group(2)
+                assert spell in SPELL_ABBREVIATIONS, f'{spell} is not valid'
+                sanitized_spells.extend([spell for _ in range(count)])
+            else:
+                raise ValueError(f'{spell} is not valid')
+
+    return sanitized_spells
 
 
 def generate_potency_length(
@@ -66,6 +92,8 @@ def generate_potency_length(
                 if gcd in ('F2', 'B2', 'F3', 'B3') and form_val == 3:
                     length += GLOBAL_GCD
                     form_val = MAGIC_DICT[gcd]
+                    if debug:
+                        print(f'at length {round(length, 1)}s')
                     continue
 
                 form_val = MAGIC_DICT[gcd]
@@ -94,10 +122,12 @@ def generate_potency_length(
 def generate_line_data(potency: int, length: float, targets: int = 1):
 
     if targets in (1, 2):
-        standard_potency, standard_length = generate_potency_length(STANDARD_ROTATION, targets=targets)
+        standard_potency, standard_length = generate_potency_length(
+            sanitize_rotation(STANDARD_ROTATION), targets=targets)
         standard_pps = standard_potency / standard_length
     elif targets > 2:
-        standard_potency, standard_length = generate_potency_length(STANDARD_AOE_ROTATION, targets=targets)
+        standard_potency, standard_length = generate_potency_length(
+            sanitize_rotation(STANDARD_AOE_ROTATION), targets=targets)
         standard_pps = standard_potency / standard_length
     else:
         raise ValueError(f'{targets} is not a valid amount of targets')
@@ -147,8 +177,9 @@ if __name__ == '__main__':
         # do the math only, no rotation
         generate_line_data(args.potency, args.length, targets=args.targets)
     else:
+        sanitized_spells = sanitize_rotation(args.rotation)
         potency, length = generate_potency_length(
-            args.rotation,
+            sanitized_spells,
             astral_start=args.start_ice,
             targets=args.targets,
             debug=args.debug,
