@@ -102,7 +102,8 @@ def generate_potency_length(
             if debug:
                 print(f'DEBUG: total potency: {int(potency)} for {gcd} under {form}{form_val}', end=' ')
             # make exception for paradox to advance the gauge
-            form_val = min(form_val + MAGIC_DICT[gcd], FORM_MAX)
+            # RIP 7.2 BLACK MAGE WTF
+            # form_val = min(form_val + MAGIC_DICT[gcd], FORM_MAX)
 
         if swift > 0 and gcd not in ('PD', 'DS', 'F3P'):
             length += GLOBAL_GCD
